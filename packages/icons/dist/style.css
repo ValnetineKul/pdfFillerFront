@@ -1,0 +1,24 @@
+@layer icons {
+  .q5yKgW_icon {
+    vertical-align: -.125em;
+    box-sizing: content-box;
+    scale: calc(1 - 2 * var(--icon-mirrored, 0)) 1;
+    width: var(--icon-size, 1em);
+    height: var(--icon-size, 1em);
+    display: inline-block;
+  }
+
+  .q5yKgW_icon--masked {
+    background-color: var(--icon-color, currentColor);
+    mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+  }
+
+  .q5yKgW_icon--unmasked {
+    background-color: #0000;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+}

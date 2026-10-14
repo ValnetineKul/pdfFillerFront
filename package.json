@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "pnpm generate-api-schemas && pnpm panda:prepare && vite",
     "build": "pnpm generate-api-schemas && pnpm panda:prepare && vite build",
-    "vercel-build": "pnpm --dir packages/icons install && pnpm --dir packages/icons build && pnpm generate-api-schemas && pnpm panda:prepare && vite build",
     "preview": "vite preview",
     "generate-api-schemas": "openapi-typescript --root-types",
     "panda:prepare": "panda codegen --clean && panda cssgen --outfile styled-system/styles.css",
