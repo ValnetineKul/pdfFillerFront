@@ -1,0 +1,72 @@
+{
+  "name": "@front/icons",
+  "version": "3.0.1",
+  "description": "React SVG icons library via CSS masks with stable asset URLs",
+  "license": "unlicensed",
+  "author": "Vyacheslav Naumenko",
+  "files": [
+    "dist",
+    "svg"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    },
+    "./style.css": "./dist/style.css",
+    "./vite": {
+      "types": "./dist/vite-plugin/index.d.mts",
+      "import": "./dist/vite-plugin/index.mjs"
+    }
+  },
+  "devDependencies": {
+    "@storybook/builder-vite": "10.2.16",
+    "@storybook/react-vite": "10.2.16",
+    "@testing-library/react": "16.3.2",
+    "@tsdown/css": "0.22.2",
+    "@types/node": "24.12.2",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.0.1",
+    "jsdom": "29.0.2",
+    "lefthook": "2.1.5",
+    "oxfmt": "0.51.0",
+    "oxlint": "1.66.0",
+    "oxlint-tsgolint": "0.23.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "storybook": "10.4.1",
+    "tsdown": "0.22.2",
+    "tsx": "4.21.0",
+    "typescript": "6.0.2",
+    "vite": "8.0.4",
+    "vitest": "4.1.3"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "vite": ">=5"
+  },
+  "peerDependenciesMeta": {
+    "vite": {
+      "optional": true
+    }
+  },
+  "scripts": {
+    "storybook": "storybook dev -p 6007 --no-open",
+    "build-storybook": "storybook build",
+    "storybook:preview": "npx http-server -p 6007 storybook-static",
+    "build": "pnpm run generate:icons && tsdown",
+    "generate:icons": "tsx generate-icons/index.ts",
+    "typecheck": "tsc --noEmit",
+    "quality": "oxlint && oxfmt --check",
+    "quality:fix": "oxlint --fix && oxfmt",
+    "test": "vitest run",
+    "generate-and-test": "pnpm run generate:icons && pnpm run test",
+    "lefthook:install": "lefthook install",
+    "lefthook:uninstall": "lefthook uninstall"
+  }
+}

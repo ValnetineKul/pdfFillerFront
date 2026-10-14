@@ -1,0 +1,4 @@
+[style*='mask-image'] {
+  mask-mode: alpha;
+  -webkit-mask-source-type: alpha;
+}

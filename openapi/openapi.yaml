@@ -1,0 +1,419 @@
+openapi: 3.0.3
+info:
+  title: pdfFiller API
+  version: 1.0.0
+  description: Registration and document extraction contracts used by the client.
+paths:
+  /api/v1/registration/request-code:
+    post:
+      tags:
+        - Registration
+      summary: Issues a mock confirmation code for a login
+      operationId: registration:request-code
+      parameters:
+        - name: Platform-Locale
+          in: header
+          description: Locale
+          required: true
+          schema:
+            type: string
+            default: ru
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfirmationCodeRequest'
+      responses:
+        '200':
+          description: Code was issued or the current code is still valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfirmationCodeResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/registration:
+    post:
+      tags:
+        - Registration
+      summary: Registers a new user with login, password, and confirmation code
+      operationId: registration
+      parameters:
+        - name: Platform-Locale
+          in: header
+          description: Locale
+          required: true
+          schema:
+            type: string
+            default: ru
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistrationRequest'
+      responses:
+        '201':
+          description: User was created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegistrationResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/login:
+    post:
+      tags:
+        - Auth
+      summary: Signs in with login and password
+      operationId: login
+      parameters:
+        - name: Platform-Locale
+          in: header
+          description: Locale
+          required: true
+          schema:
+            type: string
+            default: ru
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Session was created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegistrationResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unknown login or wrong password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/documents/extract:
+    post:
+      tags:
+        - Documents
+      summary: Extracts applicant data from passport, form, booking, and Russian passport text
+      operationId: documents:extract
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentExtractRequest'
+      responses:
+        '200':
+          description: Extracted applicant profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentExtractResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ConfirmationCodeRequest:
+      type: object
+      required:
+        - login
+      properties:
+        login:
+          type: string
+    ConfirmationCodeResponse:
+      type: object
+      required:
+        - code
+        - codeExpire
+      properties:
+        code:
+          type: string
+          description: Mock delivery of the one-time code. A real service would send it out of band.
+        codeExpire:
+          type: integer
+          description: Unix time in seconds when the code expires
+    RegistrationRequest:
+      type: object
+      required:
+        - login
+        - password
+        - confirmationCode
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+        confirmationCode:
+          type: string
+    LoginRequest:
+      type: object
+      required:
+        - login
+        - password
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+    RegistrationResponse:
+      type: object
+      required:
+        - id
+        - login
+        - token
+      properties:
+        id:
+          type: string
+        login:
+          type: string
+        token:
+          type: string
+    DocumentExtractRequest:
+      type: object
+      required:
+        - country
+        - passportText
+        - formText
+        - bookingText
+        - russianPassportText
+        - russianRegistrationText
+      properties:
+        country:
+          type: string
+        passportText:
+          type: string
+        formText:
+          type: string
+        bookingText:
+          type: string
+        russianPassportText:
+          type: string
+        russianRegistrationText:
+          type: string
+    AgreementFields:
+      type: object
+      required:
+        - fullName
+        - documentType
+        - series
+        - number
+        - issuedBy
+        - issueDate
+        - address
+      properties:
+        fullName:
+          type: string
+        documentType:
+          type: string
+        series:
+          type: string
+        number:
+          type: string
+        issuedBy:
+          type: string
+        issueDate:
+          type: string
+        address:
+          type: string
+    ApplicantFields:
+      type: object
+      required:
+        - surname
+        - surnameAtBirth
+        - givenNames
+        - dateOfBirth
+        - placeOfBirth
+        - countryOfBirth
+        - nationality
+        - sex
+        - passportNumber
+        - passportExpiry
+        - issuingCountry
+        - nationalId
+        - address
+        - occupation
+        - hostSurname
+        - hostGivenNames
+        - hostAddress
+        - travelPurpose
+        - stayFrom
+        - stayTo
+        - maritalStatus
+        - passportIssueDate
+        - email
+        - phone
+        - employerName
+        - employerAddress
+        - employerPhone
+        - hotelPhone
+        - sponsored
+        - sponsorSurname
+        - sponsorGivenNames
+        - appointmentCity
+        - appointmentDate
+        - staySource
+        - hotelName
+        - hostEmail
+        - previousVisa
+        - fingerprintDate
+        - visaNumber
+        - minor
+        - parent1Surname
+        - parent1GivenNames
+        - parent1Phone
+        - parent1Email
+        - parent1Address
+        - parent2Surname
+        - parent2GivenNames
+        - parent2Phone
+        - parent2Email
+        - parent2Address
+      properties:
+        surname:
+          type: string
+        surnameAtBirth:
+          type: string
+        givenNames:
+          type: string
+        dateOfBirth:
+          type: string
+        placeOfBirth:
+          type: string
+        countryOfBirth:
+          type: string
+        nationality:
+          type: string
+        sex:
+          type: string
+        passportNumber:
+          type: string
+        passportExpiry:
+          type: string
+        issuingCountry:
+          type: string
+        nationalId:
+          type: string
+        address:
+          type: string
+        occupation:
+          type: string
+        hostSurname:
+          type: string
+        hostGivenNames:
+          type: string
+        hostAddress:
+          type: string
+        travelPurpose:
+          type: string
+        stayFrom:
+          type: string
+        stayTo:
+          type: string
+        maritalStatus:
+          type: string
+        passportIssueDate:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        employerName:
+          type: string
+        employerAddress:
+          type: string
+        employerPhone:
+          type: string
+        hotelPhone:
+          type: string
+        sponsored:
+          type: string
+        sponsorSurname:
+          type: string
+        sponsorGivenNames:
+          type: string
+        appointmentCity:
+          type: string
+        appointmentDate:
+          type: string
+        staySource:
+          type: string
+        hotelName:
+          type: string
+        hostEmail:
+          type: string
+        previousVisa:
+          type: string
+        fingerprintDate:
+          type: string
+        visaNumber:
+          type: string
+        minor:
+          type: string
+        parent1Surname:
+          type: string
+        parent1GivenNames:
+          type: string
+        parent1Phone:
+          type: string
+        parent1Email:
+          type: string
+        parent1Address:
+          type: string
+        parent2Surname:
+          type: string
+        parent2GivenNames:
+          type: string
+        parent2Phone:
+          type: string
+        parent2Email:
+          type: string
+        parent2Address:
+          type: string
+    DocumentExtractResponse:
+      type: object
+      required:
+        - country
+        - fields
+        - agreement
+        - warnings
+      properties:
+        country:
+          type: string
+        fields:
+          $ref: '#/components/schemas/ApplicantFields'
+        agreement:
+          $ref: '#/components/schemas/AgreementFields'
+        warnings:
+          type: array
+          items:
+            type: string
+    ErrorResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string

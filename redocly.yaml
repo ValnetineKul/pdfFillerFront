@@ -1,0 +1,5 @@
+apis:
+  api:
+    root: ./openapi/openapi.yaml
+    x-openapi-ts:
+      output: ./.temp/api-schemas/api.ts
