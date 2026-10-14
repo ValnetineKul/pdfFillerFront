@@ -1,0 +1,10 @@
+import { Meta, Title, Subtitle } from '@storybook/addon-docs/blocks';
+import { defaultPreset } from '../../preset/index';
+import { SpacingTable } from '../../../.storybook/blocks/SpacingTable';
+import { getSpacingFromPreset } from '../../../.storybook/utils/panda-preset';
+
+<Meta title="System/Spacing" />
+
+<Title children="Отступы" />
+
+<SpacingTable spacing={getSpacingFromPreset(defaultPreset)} />

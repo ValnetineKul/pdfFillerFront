@@ -1,0 +1,19 @@
+@layer reset, base, icons, tokens, recipes, utilities;
+
+/*Canvas background color for the navyDark theme*/
+html[data-panda-theme='navyDark'],
+html[data-panda-theme='navyDark'] .docs-story {
+  background-color: #0d0f1c;
+}
+
+/*Canvas background color for the tealDark theme*/
+html[data-panda-theme='tealDark'],
+html[data-panda-theme='tealDark'] .docs-story {
+  background-color: #0c111d;
+}
+
+/*Canvas background color for the yellowDark theme*/
+html[data-panda-theme='yellowDark'],
+html[data-panda-theme='yellowDark'] .docs-story {
+  background-color: #101828;
+}

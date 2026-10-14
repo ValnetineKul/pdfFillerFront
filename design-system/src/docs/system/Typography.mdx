@@ -1,0 +1,20 @@
+import { Meta, Title, Subtitle } from '@storybook/addon-docs/blocks';
+import { Typeset } from '../../../.storybook/blocks/Typeset';
+import { getTextStylesFromPreset } from '../../../.storybook/utils';
+import { defaultPreset } from '../../preset/index';
+
+<Meta title="System/Typography" />
+
+<Title children="Typography" />
+
+<Subtitle children="Display" />
+<Typeset
+  sampleText="Lorem ipsum dolor sit amet."
+  textStyles={getTextStylesFromPreset(defaultPreset).display}
+/>
+
+<Subtitle children="Regular" />
+<Typeset
+  sampleText="Lorem ipsum dolor sit amet."
+  textStyles={getTextStylesFromPreset(defaultPreset).regular}
+/>

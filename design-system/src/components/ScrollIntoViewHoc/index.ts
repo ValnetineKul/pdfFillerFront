@@ -1,0 +1,1 @@
+export { ScrollIntoViewHoc } from './ScrollIntoViewHoc';

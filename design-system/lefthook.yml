@@ -1,0 +1,10 @@
+# https://github.com/evilmartians/lefthook/blob/master/docs/full_guide.md
+colors: false
+
+pre-push:
+  parallel: true
+  jobs:
+    - name: typecheck
+      run: pnpm typecheck
+    - name: quality-check
+      run: pnpm lint && pnpm fmt:check

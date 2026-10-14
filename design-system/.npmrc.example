@@ -1,0 +1,8 @@
+# 1. Указываем, что все пакеты @front ищем в общем регистри GitLab
+@front:registry=https://gitlab.b2bdev.pro/api/v4/packages/npm/
+
+# 2. Привязываем токен ко всему домену gitlab.b2bdev.pro (без привязки к ID проекта)
+//gitlab.b2bdev.pro/api/v4/packages/npm/:_authToken=
+
+# Дополнительные настройки
+save-exact=true

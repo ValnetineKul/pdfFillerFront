@@ -1,0 +1,115 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import {
+  InfoIcon,
+  BeakerIcon,
+  QuestionIcon,
+  BoxIcon,
+  AccessibilityIcon,
+  ComponentIcon,
+  ListUnorderedIcon,
+  GridAltIcon,
+  StructureIcon,
+  PaintBrushIcon,
+  WrenchIcon,
+} from '@storybook/icons';
+
+import { CardList } from '../../.storybook/blocks/Card/CardList';
+
+<Meta title="GettingStarted" />
+
+<Title children="С чего начать ?" />
+
+> **Система дизайна** - это комплексная структура, которая помогает создавать единый и согласованный пользовательский опыт
+> на различных платформах и приложениях. Она предоставляет рекомендации и инструменты для дизайнеров и разработчиков.
+> Это так же мощный инструмент, который помогает упорядочить процессы разработки и улучшить взаимодействие между командами.
+
+<CardList
+  listOfCards={[
+    {
+      id: '1',
+      title: 'Для ознакомления',
+      description: 'Необходимая информация для начала работы',
+      href: '/?path=/docs/intro-introduction--docs',
+      icon: <InfoIcon />,
+    },
+    {
+      id: '2',
+      title: 'Разработка',
+      description: 'Создание новых компонентов',
+      href: '/?path=/docs/intro-development--docs',
+      icon: <BeakerIcon />,
+    },
+    {
+      id: '3',
+      title: 'Применение',
+      description: 'Применение компонентов в проекте',
+      href: '/?path=/docs/intro-implementation--docs',
+      icon: <ComponentIcon />,
+    },
+    {
+      id: '4',
+      title: 'Темы',
+      description: 'Система дизайна включает различные темы',
+      href: '/?path=/docs/intro-theme--docs',
+      icon: <PaintBrushIcon />,
+    },
+    {
+      id: '5',
+      title: 'Тестирование',
+      description: 'Описания возможных тест-кейсов',
+      href: '/?path=/docs/intro-testing--docs',
+      icon: <WrenchIcon />,
+    },
+    {
+      id: '6',
+      title: 'Часто задаваемые вопросы',
+      description: 'Система дизайна включает различные элементы',
+      href: '/?path=/docs/intro-f-a-q--docs',
+      icon: <QuestionIcon />,
+    },
+  ]}
+/>
+
+<div style={{ height: '60px' }}></div>
+
+## Основные понятия
+
+<CardList
+  listOfCards={[
+    {
+      id: '1',
+      title: 'Доступность',
+      description: 'Создание инклюзивных приложений, доступных для всех',
+      href: '/?path=/docs/foundation-accessibility--docs',
+      icon: <AccessibilityIcon />,
+    },
+    {
+      id: '2',
+      title: '8px сетка',
+      description: 'Создание гармоничных и структурированных интерфейсов',
+      href: '/?path=/docs/foundation-8px-design--docs',
+      icon: <GridAltIcon />,
+    },
+    {
+      id: '3',
+      title: 'Адаптивный дизайн',
+      description: 'Фундаментальный аспект современной веб-разработки',
+      href: '/?path=/docs/foundation-resposive--docs',
+      icon: <BoxIcon />,
+    },
+    {
+      id: '4',
+      title: 'Составляющие дизайна',
+      description: 'Система дизайна включает различные элементы',
+      href: '/?path=/docs/foundation-design--docs',
+      icon: <ListUnorderedIcon />,
+    },
+    {
+      id: '5',
+      title: 'Структура дизайн-системы',
+      description: 'Описание структуры проекта',
+      href: '/?path=/docs/foundation-structure--docs',
+      icon: <StructureIcon />,
+    },
+  ]}
+/>

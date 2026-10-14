@@ -1,0 +1,127 @@
+{
+  "name": "@front/design-system",
+  "version": "2.0.3",
+  "description": "Design-system",
+  "license": "unlicensed",
+  "author": "Frontend team of Uplatform",
+  "style": "./dist/style.css",
+  "files": [
+    "dist/**",
+    "styled-system/**",
+    "type-declarations/tracking.d.ts"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "imports": {
+    "#styled-system/types": {
+      "types": "./styled-system/types/index.d.ts"
+    },
+    "#styled-system/*": {
+      "types": "./styled-system/*/index.d.ts",
+      "default": "./styled-system/*/index.mjs"
+    },
+    "#shared/*": "./src/shared/*"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.mjs"
+    },
+    "./base": {
+      "types": "./dist/rac.d.mts",
+      "import": "./dist/rac.mjs",
+      "default": "./dist/rac.mjs"
+    },
+    "./rac": {
+      "types": "./dist/rac.d.mts",
+      "import": "./dist/rac.mjs",
+      "default": "./dist/rac.mjs"
+    },
+    "./internationalized": {
+      "types": "./dist/internationalized.d.mts",
+      "import": "./dist/internationalized.mjs",
+      "default": "./dist/internationalized.mjs"
+    },
+    "./preset": {
+      "types": "./dist/preset.d.mts",
+      "import": "./dist/preset.mjs",
+      "default": "./dist/preset.mjs"
+    },
+    "./tracking": {
+      "types": "./type-declarations/tracking.d.ts"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "scripts": {
+    "panda:prepare": "panda codegen --clean",
+    "dev": "pnpm run storybook",
+    "build": "pnpm run build:lib && pnpm run build:css",
+    "build:lib": "tsdown",
+    "build:css": "panda cssgen --minify --outfile dist/style.css",
+    "storybook": "storybook dev -p 6006 --no-open",
+    "build-storybook": "storybook build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "lefthook:on": "lefthook install"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "5.1.0",
+    "@front/icons": "3.0.0",
+    "@internationalized/date": "3.12.2",
+    "@react-aria/utils": "3.34.1",
+    "@tanstack/react-table": "8.20.5",
+    "@tanstack/react-virtual": "3.14.6",
+    "input-otp": "1.4.2",
+    "react-aria": "3.50.0",
+    "react-aria-components": "1.19.0",
+    "react-select5": "npm:react-select@5.10.2",
+    "react-stately": "3.48.0"
+  },
+  "devDependencies": {
+    "@front/prettier-config": "2.0.1",
+    "@front/ts-config": "1.2.1",
+    "@maskito/core": "3.0.3",
+    "@maskito/react": "3.0.3",
+    "@pandacss/dev": "0.51.1",
+    "@react-types/shared": "3.36.0",
+    "@storybook/addon-docs": "10.4.1",
+    "@storybook/addon-themes": "10.4.1",
+    "@storybook/builder-vite": "10.4.1",
+    "@storybook/icons": "1.6.0",
+    "@storybook/react-vite": "10.4.1",
+    "@testing-library/react": "16.3.2",
+    "@types/node": "16.18.32",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "dotenv": "17.4.2",
+    "jsdom": "30.0.1",
+    "lefthook": "2.1.10",
+    "oxfmt": "0.58.0",
+    "oxlint": "1.73.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "storybook": "10.4.1",
+    "tsdown": "0.21.9",
+    "typescript": "5.6.2",
+    "vite": "8.0.3",
+    "vitest": "4.1.11"
+  },
+  "peerDependencies": {
+    "@pandacss/dev": ">=0.46.1 <2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@pandacss/dev": {
+      "optional": true
+    }
+  }
+}

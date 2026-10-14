@@ -1,0 +1,11 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+
+import { ColorGallery } from '../../../.storybook/blocks/Color/ColorGallery';
+import { getColorPaletteFromPreset } from '../../../.storybook/utils';
+import { defaultPreset } from '../../preset';
+
+<Meta title="System/Colors" />
+
+<Title children="Colors" />
+
+<ColorGallery colors={getColorPaletteFromPreset(defaultPreset)} />

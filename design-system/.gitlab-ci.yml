@@ -1,0 +1,130 @@
+default:
+  image: registry.b2bdev.pro/devops/docker/nodejs:24.15.0-master
+  interruptible: true
+  cache: &pnpm_cache
+    key:
+      files:
+        - pnpm-lock.yaml
+    paths:
+      - .pnpm-store
+    policy: pull
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "web" && $CI_COMMIT_BRANCH
+
+.with_deps:
+  before_script:
+    - |
+      echo "@${CI_PROJECT_ROOT_NAMESPACE}:registry=${CI_API_V4_URL}/packages/npm/" > .npmrc
+      echo "${CI_API_V4_URL#https?}/:_authToken=\${CI_JOB_TOKEN}" >> .npmrc
+      echo "always-auth=true" >> .npmrc
+    - &enable_pnpm corepack enable && corepack prepare pnpm@10.12.1 --activate
+    - &install_deps pnpm install --prefer-offline --frozen-lockfile
+
+stages:
+  - prepare
+  - quality
+  - build
+  - deploy
+  - publish
+
+install deps + codegen:
+  extends: .with_deps
+  stage: prepare
+  cache:
+    <<: *pnpm_cache
+    policy: pull-push
+  script:
+    - pnpm fetch
+    - pnpm run panda:prepare
+  artifacts:
+    paths:
+      - styled-system/
+    expire_in: 1 day
+
+quality:
+  extends: .with_deps
+  stage: quality
+  script:
+    - pnpm run lint && pnpm run fmt:check
+
+typecheck:
+  extends: .with_deps
+  stage: quality
+  script:
+    - pnpm run typecheck
+
+test:
+  extends: .with_deps
+  stage: quality
+  script:
+    - pnpm run test
+
+build:
+  extends: .with_deps
+  stage: build
+  script:
+    - pnpm run build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - dist
+
+build-storybook:
+  extends: .with_deps
+  stage: build
+  script:
+    - pnpm run build-storybook
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - storybook-static
+
+pages-storybook:
+  stage: deploy
+  pages: true
+  script:
+    - rm -rf public
+    - mv storybook-static public
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+pages-storybook-mr:
+  stage: deploy
+  script:
+    - mkdir -p public/storybook
+    - cp -r storybook-static/* public/storybook
+  artifacts:
+    paths:
+      - public
+  pages:
+    path_prefix: '$CI_MERGE_REQUEST_IID'
+    expire_in: 1 week
+  environment:
+    name: 'storybook-$CI_MERGE_REQUEST_IID'
+    url: 'https://${CI_PAGES_DOMAIN}/${CI_PROJECT_PATH}/$CI_MERGE_REQUEST_IID/storybook/'
+  rules:
+    - if: $CI_MERGE_REQUEST_IID
+
+publish npm:
+  stage: publish
+  before_script:
+    - *enable_pnpm
+    - |
+      echo "@${CI_PROJECT_ROOT_NAMESPACE}:registry=${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
+      echo "${CI_API_V4_URL#https?}/:_authToken=\${CI_JOB_TOKEN}" >> .npmrc
+      echo "${CI_API_V4_URL#https?}/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=\${CI_JOB_TOKEN}" >> .npmrc
+      echo "always-auth=true" >> .npmrc
+    - *install_deps
+  script:
+    - pnpm build
+    - pnpm publish
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'

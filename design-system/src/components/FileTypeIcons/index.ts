@@ -1,0 +1,1 @@
+export { FileTypeIcons } from './FileTypeIcons';
